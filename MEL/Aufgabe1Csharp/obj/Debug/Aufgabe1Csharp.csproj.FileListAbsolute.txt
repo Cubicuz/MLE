@@ -1,0 +1,10 @@
+c:\Users\pegamenis\documents\visual studio 2015\Projects\MEL\Aufgabe1Csharp\bin\Debug\Aufgabe1Csharp.exe.config
+c:\Users\pegamenis\documents\visual studio 2015\Projects\MEL\Aufgabe1Csharp\bin\Debug\Aufgabe1Csharp.exe
+c:\Users\pegamenis\documents\visual studio 2015\Projects\MEL\Aufgabe1Csharp\bin\Debug\Aufgabe1Csharp.pdb
+c:\Users\pegamenis\documents\visual studio 2015\Projects\MEL\Aufgabe1Csharp\obj\Debug\Aufgabe1Csharp.csprojResolveAssemblyReference.cache
+c:\Users\pegamenis\documents\visual studio 2015\Projects\MEL\Aufgabe1Csharp\obj\Debug\Aufgabe1Csharp.Form1.resources
+c:\Users\pegamenis\documents\visual studio 2015\Projects\MEL\Aufgabe1Csharp\obj\Debug\Aufgabe1Csharp.Properties.Resources.resources
+c:\Users\pegamenis\documents\visual studio 2015\Projects\MEL\Aufgabe1Csharp\obj\Debug\Aufgabe1Csharp.csproj.GenerateResource.Cache
+c:\Users\pegamenis\documents\visual studio 2015\Projects\MEL\Aufgabe1Csharp\obj\Debug\Aufgabe1Csharp.exe
+c:\Users\pegamenis\documents\visual studio 2015\Projects\MEL\Aufgabe1Csharp\obj\Debug\Aufgabe1Csharp.pdb
+C:\Users\PegaMenis\Documents\Visual Studio 2015\Projects\MEL\Aufgabe1Csharp\obj\Debug\Aufgabe1Csharp.GUI.TownMapPanel.resources

@@ -1,0 +1,10 @@
+c:\users\pegamenis\documents\visual studio 2015\Projects\MEL\MEL\bin\Debug\MEL.exe.config
+c:\users\pegamenis\documents\visual studio 2015\Projects\MEL\MEL\bin\Debug\MEL.exe
+c:\users\pegamenis\documents\visual studio 2015\Projects\MEL\MEL\bin\Debug\MEL.pdb
+c:\users\pegamenis\documents\visual studio 2015\Projects\MEL\MEL\bin\Debug\MEL.xml
+c:\users\pegamenis\documents\visual studio 2015\Projects\MEL\MEL\obj\Debug\Aufgabe1VB.vbprojResolveAssemblyReference.cache
+c:\users\pegamenis\documents\visual studio 2015\Projects\MEL\MEL\obj\Debug\MEL.Resources.resources
+c:\users\pegamenis\documents\visual studio 2015\Projects\MEL\MEL\obj\Debug\Aufgabe1VB.vbproj.GenerateResource.Cache
+c:\users\pegamenis\documents\visual studio 2015\Projects\MEL\MEL\obj\Debug\MEL.exe
+c:\users\pegamenis\documents\visual studio 2015\Projects\MEL\MEL\obj\Debug\MEL.xml
+c:\users\pegamenis\documents\visual studio 2015\Projects\MEL\MEL\obj\Debug\MEL.pdb
