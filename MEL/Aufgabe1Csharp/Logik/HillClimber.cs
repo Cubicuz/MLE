@@ -50,18 +50,41 @@ namespace Aufgabe1Csharp.Logik {
             return length;
         }
 
-        private bool isSwapBetter(int i, int j) {
+        private double isSwapBetter(int i, int j) {
             double lengthOld, lengthNew;
-            lengthOld = distanceMatrix[townRef[i - 1]][townRef[i]] + distanceMatrix[townRef[i + 1]][townRef[i]] + distanceMatrix[townRef[j - 1]][townRef[j]] + distanceMatrix[townRef[j + 1]][townRef[j]];
-            lengthNew = distanceMatrix[townRef[i - 1]][townRef[j]] + distanceMatrix[townRef[i + 1]][townRef[j]] + distanceMatrix[townRef[j - 1]][townRef[i]] + distanceMatrix[townRef[j + 1]][townRef[i]];
-            return lengthNew < lengthOld;
+            int ibefore = i - 1;
+            int iafter = i + 1;
+            int jbefore = j - 1;
+            int jafter = j + 1;
+            if (i == 0)
+                ibefore = 99;
+            if (i == 99)
+                iafter = 0;
+            if (j == 0)
+                jbefore = 99;
+            if (j == 99)
+                jafter = 0;
+            if (i - j == 1) {
+                lengthOld = distanceMatrix[townRef[jbefore]][townRef[j]] + distanceMatrix[townRef[i]][townRef[iafter]];
+                lengthNew = distanceMatrix[townRef[jbefore]][townRef[i]] + distanceMatrix[townRef[j]][townRef[iafter]];
+            } else if (j - i == 1) {
+                lengthOld = distanceMatrix[townRef[ibefore]][townRef[i]] + distanceMatrix[townRef[j]][townRef[jafter]];
+                lengthNew = distanceMatrix[townRef[ibefore]][townRef[j]] + distanceMatrix[townRef[i]][townRef[jafter]];
+            } else if (((i == 99) && (j == 0)) || ((i == 0) && (j == 99))) {
+                lengthOld = distanceMatrix[townRef[1]][townRef[0]] + distanceMatrix[townRef[99]][townRef[98]];
+                lengthNew = distanceMatrix[townRef[1]][townRef[99]] + distanceMatrix[townRef[0]][townRef[98]];
+            } else {
+                lengthOld = distanceMatrix[townRef[ibefore]][townRef[i]] + distanceMatrix[townRef[iafter]][townRef[i]] + distanceMatrix[townRef[jbefore]][townRef[j]] + distanceMatrix[townRef[jafter]][townRef[j]];
+                lengthNew = distanceMatrix[townRef[ibefore]][townRef[j]] + distanceMatrix[townRef[iafter]][townRef[j]] + distanceMatrix[townRef[jbefore]][townRef[i]] + distanceMatrix[townRef[jafter]][townRef[i]];
+            }
+            return lengthOld - lengthNew;
         }
 
-        public void HillClimb() {
+        public double HillClimb() {
             int rounds = 0, swapi, swapj;
-            int maxRounds = 10000;
+            int maxRounds = 10000000;
             int townCount = townRef.Length;
-            double length = fitness();
+            double length = fitness(), newLength = 0;
             Random r = new Random();
             while (rounds < maxRounds) {
                 rounds++;
@@ -69,15 +92,43 @@ namespace Aufgabe1Csharp.Logik {
                 do {
                     swapj = r.Next(0, townCount);
                 } while (swapj == swapi);
-                if (isSwapBetter(swapi, swapj)) {
+                if (isSwapBetter(swapi, swapj) > 0) {
                     swap(swapi, swapj);
-                    Console.WriteLine("new Length: " + length);
+                    newLength = fitness();
+                    Console.WriteLine("new Length: " + newLength);
+                    if (length < newLength) {
+                        Console.WriteLine("i " + swapi + " j " + swapj);
+                    }
+                    length = newLength;
                 }
             }
-            for (int i = 0; i < townCount; i++) {
-                System.Console.WriteLine(townAdministation.towns[townRef[i]].name);
-            }
+            return fitness();
         }
 
+        public double SimulatedAnnealing(double temperature, double epsilon) {
+            int swapi, swapj;
+
+            int townCount = townRef.Length;
+            double lastFitness = fitness(), fitnesDiff = 0;
+            Random r = new Random();
+            do {
+                swapi = r.Next(0, townCount);
+                do {
+                    swapj = r.Next(0, townCount);
+                } while (swapi == swapj);
+                fitnesDiff = isSwapBetter(swapi, swapj);
+                if (fitnesDiff > 0 || (r.Next(0, 1000) < Math.Exp(-(fitnesDiff) / temperature) * 1000)) {
+                    swap(swapi, swapj);
+                }
+                temperature -= epsilon;
+            } while (temperature > epsilon);
+            return fitness();
+        }
+
+        public void Resett() {
+            for (int i = 0;i < 100; i++) {
+                townRef[i] = i;
+            }
+        }
     }
 }
