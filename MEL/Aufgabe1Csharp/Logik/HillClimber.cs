@@ -80,8 +80,8 @@ namespace Aufgabe1Csharp.Logik {
             return lengthOld - lengthNew;
         }
 
-        public double HillClimb() {
-            int rounds = 0, swapi, swapj;
+        public double HillClimb(int rounds = 10000) {
+            int swapi, swapj;
             int maxRounds = 10000000;
             int townCount = townRef.Length;
             double length = fitness(), newLength = 0;
@@ -94,12 +94,6 @@ namespace Aufgabe1Csharp.Logik {
                 } while (swapj == swapi);
                 if (isSwapBetter(swapi, swapj) > 0) {
                     swap(swapi, swapj);
-                    newLength = fitness();
-                    Console.WriteLine("new Length: " + newLength);
-                    if (length < newLength) {
-                        Console.WriteLine("i " + swapi + " j " + swapj);
-                    }
-                    length = newLength;
                 }
             }
             return fitness();
@@ -109,7 +103,7 @@ namespace Aufgabe1Csharp.Logik {
             int swapi, swapj;
 
             int townCount = townRef.Length;
-            double lastFitness = fitness(), fitnesDiff = 0;
+            double lastFitness = fitness(), newFitness, fitnesDiff = 0;
             Random r = new Random();
             do {
                 swapi = r.Next(0, townCount);
@@ -117,7 +111,7 @@ namespace Aufgabe1Csharp.Logik {
                     swapj = r.Next(0, townCount);
                 } while (swapi == swapj);
                 fitnesDiff = isSwapBetter(swapi, swapj);
-                if (fitnesDiff > 0 || (r.Next(0, 1000) < Math.Exp(-(fitnesDiff) / temperature) * 1000)) {
+                if ((fitnesDiff > 0) || (r.Next(0, 1000) < Math.Exp((fitnesDiff) / temperature) * 1000)) {
                     swap(swapi, swapj);
                 }
                 temperature -= epsilon;

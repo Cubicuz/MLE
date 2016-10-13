@@ -18,22 +18,26 @@ namespace Aufgabe1Csharp
             TownAdministration t = new TownAdministration(true);
             HillClimber h = new HillClimber(ref t);
             Random r = new Random();
-            int rounds = 0, random, oldrndom;
-            double temp, newTemp, eps, newEps, lastlength, newlength;
-            temp = 10000;
+            int rounds = 0, random;
+            double temp, newTemp, eps, newEps;
+            temp = 5;
             double HCResult = 0, SAResult = 0;
-
-            eps = 0.001;
+            double hc, sa;
+            eps = 0.000001;
             newTemp = temp;
             newEps = eps;
-            oldrndom = 0;
             random = r.Next(0, 3);
             while (rounds < 10) {
-                HCResult += h.HillClimb();
+                hc = 0; // h.HillClimb((int)(temp / eps));
+                HCResult += hc;
                 h.Resett();
-                SAResult += h.SimulatedAnnealing(temp, eps);
+                sa = h.SimulatedAnnealing(temp, eps);
+                SAResult += sa;
                 h.Resett();
                 rounds++;
+                Console.WriteLine("------- " + rounds);
+                Console.WriteLine("HC: " + hc);
+                Console.WriteLine("SA: " + sa);
             }
 
             Console.WriteLine("done ...");
