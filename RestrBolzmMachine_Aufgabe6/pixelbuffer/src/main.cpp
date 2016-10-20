@@ -17,7 +17,7 @@
 // --- Deep Net
 #define NEURONS 28*28+10
 #define OUTNEURONS 10
-
+static double LERNRATE = 0.01;
 
 #define GREEN 0,1,0
 #define BLUE 0,0,1
@@ -43,10 +43,16 @@ void init(double weights[NEURONS][NEURONS]){
 void activateForward(double input[], double weights[NEURONS][NEURONS],double output[]){
 
 	// insert code here
-	for (int i = 0; i < NEURONS - OUTNEURONS; i++) {
+	for (int i = 0; i < NEURONS; i++) {
 		output[i] = 0;
 		for (int j = 0; j < NEURONS - OUTNEURONS; j++) {
 			output[i] += weights[i][j] * input[j];
+		}
+		if (output[i] > 1) {
+			output[i] = 1;
+		}
+		else if (output[i] < 0) {
+			output[i] = 0;
 		}
 	}
 
@@ -54,10 +60,16 @@ void activateForward(double input[], double weights[NEURONS][NEURONS],double out
 void activateReconstruction(double input[], double weights[NEURONS][NEURONS],double output[]){
 	
 	// insert code here
-	for (int i = 0; i < NEURONS - OUTNEURONS; i++) {
-		output[i] = 0;
-		for (int j = 0; j < NEURONS - OUTNEURONS; j++) {
-			output[i] += weights[j][i] * input[j];
+	for (int i = 0; i < NEURONS; i++) {
+		input[i] = 0;
+		for (int j = 0; j < NEURONS; j++) {
+			input[i] += weights[j][i] * output[j];
+		}
+		if (input[i] > 1) {
+			input[i] = 1;
+		}
+		else if (input[i] < 0) {
+			input[i] = 0;
 		}
 	}
 
@@ -66,11 +78,12 @@ void activateReconstruction(double input[], double weights[NEURONS][NEURONS],dou
 void contrastiveDivergence(double input[], double output[], double reconstructed_input[], double weights[NEURONS][NEURONS])
 {
 	
-	double deltaW = 0, n = 0.01;
+	double deltaW = 0;
 	// insert code here
-	for (int i = 0; i < NEURONS - OUTNEURONS; i++) {
-		for (int j = 0; j < NEURONS - OUTNEURONS; j++) {
-			deltaW = n * output[j] * (input[j] - reconstructed_input[j]);
+	for (int i = 0; i < NEURONS; i++) {
+		for (int j = 0; j < NEURONS; j++) {
+			deltaW = LERNRATE * output[i] * (input[j] - reconstructed_input[j]);
+			weights[i][j] += deltaW;
 		}
 	}
 
@@ -144,12 +157,12 @@ void trainOrTestNet(bool train, int maxCount,float red,float green,float blue){
 			contrastiveDivergence(input,output,reconstructed_input,weights);
 		}
 
-		if (count%11==0){
+		if (count%51==0){
 			sprintf(text,"Zahl:%d",letters.trainLabel[pattern%100]);
 			setColor(1,0,0);
 			glPrint(10,340,text);
 
-			sprintf(text,"Trainingsmuster:%d                 Erkennungsrate:%f %%",count,(float)(correct)/(float)(count));
+			sprintf(text,"Trainingsmuster:%d                 Erkennungsrate:%f %%",count,(float)(correct)/(float)(count)*100);
 			setColor(1,0,0);
 			glPrint(10,320,text);
 			for (int t=0;t<10;t++){
