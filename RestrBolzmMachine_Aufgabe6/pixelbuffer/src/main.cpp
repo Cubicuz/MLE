@@ -119,7 +119,7 @@ void trainOrTestNet(bool train, int maxCount,float red,float green,float blue){
 
 	FILE *outFile;
 	outFile = fopen("result.txt","wb");
-
+	
 	if (train){
 		init(weights);
 	}
@@ -198,7 +198,7 @@ int main(int argc, char** argv){
 
 	initWindow(argc,argv,width,height,"Restricted Bolzmann Machine");
 
-	trainOrTestNet(true,10000,BLUE);
+	trainOrTestNet(true,5000,BLUE);
 	trainOrTestNet(false,1000,GREEN);
 
 }
