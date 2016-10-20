@@ -103,16 +103,22 @@ namespace Aufgabe1Csharp.Logik {
             int swapi, swapj;
 
             int townCount = townRef.Length;
-            double lastFitness = fitness(), newFitness, fitnesDiff = 0;
+            double lastFitness = fitness(), newFitness, fitnesDiff = 0, wahrscheinlichkeit;
             Random r = new Random();
             do {
+
                 swapi = r.Next(0, townCount);
                 do {
                     swapj = r.Next(0, townCount);
                 } while (swapi == swapj);
+
                 fitnesDiff = isSwapBetter(swapi, swapj);
-                if ((fitnesDiff > 0) || (r.Next(0, 1000) < Math.Exp((fitnesDiff) / temperature) * 1000)) {
+                wahrscheinlichkeit = Math.Exp((fitnesDiff) / temperature);
+                if ((fitnesDiff > 0) || (r.Next(0, 1000) < wahrscheinlichkeit * 1000)) {
                     swap(swapi, swapj);
+                    if (fitnesDiff <= 0) {
+                        Console.WriteLine("Rückschritt wahrscheinlichkeit: " + wahrscheinlichkeit);
+                    }
                 }
                 temperature -= epsilon;
             } while (temperature > epsilon);

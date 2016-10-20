@@ -1,0 +1,10 @@
+C:\Users\PegaMenis\Documents\MLE\MEL\Aufgabe1Csharp\bin\Debug\Aufgabe1Csharp.exe.config
+C:\Users\PegaMenis\Documents\MLE\MEL\Aufgabe1Csharp\obj\Debug\Aufgabe1Csharp.exe
+C:\Users\PegaMenis\Documents\MLE\MEL\Aufgabe1Csharp\obj\Debug\Aufgabe1Csharp.pdb
+C:\Users\PegaMenis\Documents\MLE\MEL\Aufgabe1Csharp\bin\Debug\Aufgabe1Csharp.exe
+C:\Users\PegaMenis\Documents\MLE\MEL\Aufgabe1Csharp\bin\Debug\Aufgabe1Csharp.pdb
+C:\Users\PegaMenis\Documents\MLE\MEL\Aufgabe1Csharp\obj\Debug\Aufgabe1Csharp.csprojResolveAssemblyReference.cache
+C:\Users\PegaMenis\Documents\MLE\MEL\Aufgabe1Csharp\obj\Debug\Aufgabe1Csharp.Form1.resources
+C:\Users\PegaMenis\Documents\MLE\MEL\Aufgabe1Csharp\obj\Debug\Aufgabe1Csharp.GUI.TownMapPanel.resources
+C:\Users\PegaMenis\Documents\MLE\MEL\Aufgabe1Csharp\obj\Debug\Aufgabe1Csharp.Properties.Resources.resources
+C:\Users\PegaMenis\Documents\MLE\MEL\Aufgabe1Csharp\obj\Debug\Aufgabe1Csharp.csproj.GenerateResource.Cache
