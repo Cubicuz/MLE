@@ -84,7 +84,7 @@ namespace Aufgabe1Csharp.Logik {
             int swapi, swapj;
             int maxRounds = 10000000;
             int townCount = townRef.Length;
-            double length = fitness(), newLength = 0;
+            double length = fitness();
             Random r = new Random();
             while (rounds < maxRounds) {
                 rounds++;
@@ -103,7 +103,7 @@ namespace Aufgabe1Csharp.Logik {
             int swapi, swapj;
 
             int townCount = townRef.Length;
-            double lastFitness = fitness(), newFitness, fitnesDiff = 0, wahrscheinlichkeit;
+            double lastFitness = fitness(), fitnesDiff = 0, wahrscheinlichkeit;
             Random r = new Random();
             do {
 

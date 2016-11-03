@@ -9,6 +9,8 @@
 #include <stdlib.h>
 #include "hwFunctions.h"
 #include "MnistReader.h"
+#include <chrono>
+#include <iostream>
 
 // graphical output_size
 #define width 900
@@ -17,7 +19,8 @@
 // --- Deep Net
 #define NEURONS 28*28+10
 #define OUTNEURONS 10
-static double LERNRATE = 0.01;
+static double LERNRATE = 2;
+static int lernCycle = 2000;
 
 #define GREEN 0,1,0
 #define BLUE 0,0,1
@@ -197,8 +200,20 @@ void trainOrTestNet(bool train, int maxCount,float red,float green,float blue){
 int main(int argc, char** argv){
 
 	initWindow(argc,argv,width,height,"Restricted Bolzmann Machine");
-
-	trainOrTestNet(true,5000,BLUE);
+	std::chrono::time_point<std::chrono::system_clock> t1, t2, t3;
+	t1 = std::chrono::system_clock::now();
+	
+	trainOrTestNet(true,lernCycle,BLUE);
+	
+	t2 = std::chrono::system_clock::now();
+	
 	trainOrTestNet(false,1000,GREEN);
-
+	
+	t3 = std::chrono::system_clock::now();
+	std::chrono::duration<double> elapsed_seconds = t2 - t1;
+	std::cout << elapsed_seconds.count() << std::endl;
+	elapsed_seconds = t3 - t2;
+	std::cout << elapsed_seconds.count() << std::endl;
+	char a;
+	std::cin >> a;
 }
