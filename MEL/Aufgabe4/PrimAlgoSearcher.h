@@ -2,28 +2,38 @@
 #include "VM.h"
 #include <random>
 #include <memory>
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
 class PrimAlgoSearcher
 {
 private:
-	VM vm;
-	int32_t numberOfGens;
+
+	int genCount, genSize, stackSize, bestToHold;
+	double crossoverRate, mutationRate;
 
 	// array of programm memories
-	int32_t ** gens;
-	int32_t ** nextGeneration;
-	int32_t ** stacks;
-	int32_t * fitnessOfGens;
+	int ** gens;
+	int ** nextGeneration;
+	int ** stacks;
+	int * fitnessOfGens;
+	void getBestIndices(int * indices);
+	int sumOfAllFitness;
+	void copyGene(int* from, int* to);
 public:
-	PrimAlgoSearcher(int numOfGens = 20);
+	PrimAlgoSearcher(int numOfGens = 20, int genSize = 1024, int bestToHold = 3, double crossoverRate = 0.5, double mutationRate = 0.1);
+	PrimAlgoSearcher(string file, int bestToHold = 3, double crossoverRate = 0.5, double mutationRate = 0.1);
 	~PrimAlgoSearcher();
-	int32_t random32();
-
-
-	int32_t countPrimesInStack(int32_t * stack);
+	int random32();
 	void runAndCalcFitness();
-	void crossOver(int32_t * genA, int32_t * genB);
-	void mutation(int32_t * gen);
+	void crossOver(int * genA, int * genB);
+	void mutation(int * gen);
 	void selection();
+	void swapGenerations();
+	void initGenes();
 
+	void saveGenes(string file);
 };
 

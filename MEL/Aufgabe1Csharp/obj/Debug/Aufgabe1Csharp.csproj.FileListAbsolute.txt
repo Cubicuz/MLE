@@ -8,3 +8,12 @@ C:\Users\PegaMenis\Documents\MLE\MEL\Aufgabe1Csharp\obj\Debug\Aufgabe1Csharp.For
 C:\Users\PegaMenis\Documents\MLE\MEL\Aufgabe1Csharp\obj\Debug\Aufgabe1Csharp.GUI.TownMapPanel.resources
 C:\Users\PegaMenis\Documents\MLE\MEL\Aufgabe1Csharp\obj\Debug\Aufgabe1Csharp.Properties.Resources.resources
 C:\Users\PegaMenis\Documents\MLE\MEL\Aufgabe1Csharp\obj\Debug\Aufgabe1Csharp.csproj.GenerateResource.Cache
+C:\Users\micha\Documents\MLE\MEL\Aufgabe1Csharp\bin\Debug\Aufgabe1Csharp.exe.config
+C:\Users\micha\Documents\MLE\MEL\Aufgabe1Csharp\bin\Debug\Aufgabe1Csharp.exe
+C:\Users\micha\Documents\MLE\MEL\Aufgabe1Csharp\bin\Debug\Aufgabe1Csharp.pdb
+C:\Users\micha\Documents\MLE\MEL\Aufgabe1Csharp\obj\Debug\Aufgabe1Csharp.Form1.resources
+C:\Users\micha\Documents\MLE\MEL\Aufgabe1Csharp\obj\Debug\Aufgabe1Csharp.GUI.TownMapPanel.resources
+C:\Users\micha\Documents\MLE\MEL\Aufgabe1Csharp\obj\Debug\Aufgabe1Csharp.Properties.Resources.resources
+C:\Users\micha\Documents\MLE\MEL\Aufgabe1Csharp\obj\Debug\Aufgabe1Csharp.csproj.GenerateResource.Cache
+C:\Users\micha\Documents\MLE\MEL\Aufgabe1Csharp\obj\Debug\Aufgabe1Csharp.exe
+C:\Users\micha\Documents\MLE\MEL\Aufgabe1Csharp\obj\Debug\Aufgabe1Csharp.pdb

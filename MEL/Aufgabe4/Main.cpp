@@ -1,7 +1,7 @@
-#include "VM.h"
+#include "PrimAlgoSearcher.h"
 #include <random>
-
-#define NumberOfGenes 21
+#include <iostream>
+using namespace std;
 
 
 int random32() {
@@ -9,13 +9,8 @@ int random32() {
 }
 
 int main() {
-	VM vm = VM();
-	int ** memories = new int *[NumberOfGenes];
-	for (int i = 0; i < NumberOfGenes; i++) {
-		memories[i] = new int[vm.MAX];
-		for (int j = 0; j < vm.MAX; j++) {
-			memories[i][j] = random32();
-		}
-	}
+	PrimAlgoSearcher lala("../Aufgabe4/PrimAlgoFile.txt");
+	lala.saveGenes("../Aufgabe4/PrimAlgoFile.txt");
+	getchar();
 	return 0;
 }
