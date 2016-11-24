@@ -7,8 +7,9 @@
 	static uint64_t target = 0xFEDCBA9876543210;
 	static uint64_t globalBeschde = UINT64_MAX;
 #pragma endregion
+	
 
-int NotMain();
+int GenerateGenAndOptimize();
 
 uint64_t random64() {
 	uint64_t r = (rand() << 16) | rand();
@@ -26,6 +27,7 @@ uint64_t hammingDistance(uint64_t genA, uint64_t genB) {
 	return y;
 }
 
+
 void cross(uint64_t * genA, uint64_t * genB, uint64_t position) {
 	uint64_t Mask = ((1 << (position + 1)) - 1);
 	uint64_t aSave = *genA;
@@ -34,6 +36,7 @@ void cross(uint64_t * genA, uint64_t * genB, uint64_t position) {
 	*genB = ((uint64_t) (aSave & ~Mask)) | ((uint64_t) (bSave & Mask));
 }
 
+// Calculate Fitnes and save the best three in bestThree
 uint64_t calculateFitness(uint64_t * P, uint64_t * Pr, uint64_t n, uint64_t * bestThree) {
 	uint64_t cumulative = 0;
 	uint64_t best0 = UINT64_MAX;
@@ -77,6 +80,7 @@ uint64_t calculateFitness(uint64_t * P, uint64_t * Pr, uint64_t n, uint64_t * be
 	return cumulative;
 }
 
+// init random Genes
 void init(uint64_t * P, uint64_t n) {
 	for (uint64_t i = 0; i < n; i++) {
 		P[i] = random64();
@@ -88,7 +92,7 @@ int main() {
 	uint64_t totalGens = 0;
 	int * GenCounts = new int [rounds];
 	for (int i = 0; i < rounds; i++) {
-		GenCounts[i] = NotMain();
+		GenCounts[i] = GenerateGenAndOptimize();
 		totalGens += GenCounts[i];
 	}
 	system("CLS");
@@ -96,9 +100,10 @@ int main() {
 	std::cout << "average Generations neccesarry: " << totalGens / rounds << std::endl;
 	std::cout << "total Gens: " << totalGens << std::endl;
 	std::getchar();
+	return 0;
 }
 
-int NotMain() {
+int GenerateGenAndOptimize() {
 	srand((unsigned) time(0));
 	target = random64();
 	std::cout << "Target: " << std::setfill('0') << std::setw(16) << std::hex << target << std::endl;
