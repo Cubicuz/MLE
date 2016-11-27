@@ -2,6 +2,7 @@
 #include <vector>
 #include <set>
 #include <algorithm>
+#include <iostream>
 
 #define byte __int8
 #define LOAD  0 // Reg = #1234
@@ -22,8 +23,10 @@ public:
 
 
 
-	VM(int * memory, int memorySize, int * stack, int stackSize) : memSize(memorySize), stackSize(stackSize) {
+	VM(int * memory, int memorySize, int * stack, int stackSize) : mem(memory), memSize(memorySize), stack(stack), stackSize(stackSize) {
 		primes.reserve(100);
+
+		
 
 #ifdef _DEBUG
 		for (int i = 0; i < stackSize; i++) {
@@ -103,15 +106,20 @@ public:
 	}
 private:
 	std::vector<int> primes;
-	int * mem = 0;
-	int * stack = 0;
+	int * mem;
+	int * stack;
 	int pc, sp, reg, cycles, memSize, stackSize;
 	
 
 	void push(int x) {
-		stack[sp++] = x;
-		if (isPrime(x)) {
-			
+		if (sp < stackSize) {
+			stack[sp++] = x;
+			if (isPrime(x)) {
+				primes.push_back(x);
+			}
+		}
+		else {
+			std::cout << "wtf" << std::endl;
 		}
 	}
 

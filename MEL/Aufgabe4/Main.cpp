@@ -9,8 +9,18 @@ int random32() {
 }
 
 int main() {
-	PrimAlgoSearcher lala("../Aufgabe4/PrimAlgoFile.txt");
+	PrimAlgoSearcher lala(10, 1024, 1024, 3,	0.5, 0.1);
+	lala.initGenes();
+	for (int i = 0; i < 1000; i++) {
+		lala.runAndCalcFitness();
+		lala.selection();
+		cout << "Run " << i << " best Fittnes " << lala.getBestFitness() << endl;
+//		lala.crossOver();
+//		lala.mutation();
+//		lala.swapGenerations();
+	}
+
+
 	lala.saveGenes("../Aufgabe4/PrimAlgoFile.txt");
-	getchar();
 	return 0;
 }
