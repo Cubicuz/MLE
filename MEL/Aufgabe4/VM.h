@@ -23,23 +23,16 @@ public:
 
 
 
-	VM(int * memory, int memorySize, int * stack, int stackSize) : mem(memory), memSize(memorySize), stack(stack), stackSize(stackSize) {
+	VM(){
 		primes.reserve(100);
-
-		
-
-#ifdef _DEBUG
-		for (int i = 0; i < stackSize; i++) {
-			stack[i] = 0;
-		}
-#endif
-
 	}
 
 	~VM() {
 	}
 
-	void simulate() {
+	void simulate(std::vector<int> &mem, int memorySize, std::vector<int> &stack, int stackSize) {
+		this->memSize = memorySize;
+		this->stackSize = stackSize;
 		pc = 0;	sp = 0;	reg = 0; cycles = 0;
 		do {
 			cycles++;
@@ -106,8 +99,7 @@ public:
 	}
 private:
 	std::vector<int> primes;
-	int * mem;
-	int * stack;
+	std::vector<int> stack;
 	int pc, sp, reg, cycles, memSize, stackSize;
 	
 
