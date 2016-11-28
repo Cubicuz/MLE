@@ -2,20 +2,20 @@
 using namespace std;
 
 
-void PrimAlgoSearcher::getBestIndices(int * indices)
+void PrimAlgoSearcher::getBestIndices()
 {
 	for (int i = 0; i < bestToHold; i++) {
-		indices[i] = -1;
+		bestIndices[i] = -1;
 	}
 	for (int i = 0; i < genCount; i++) {
 		for (int j = bestToHold - 1; j >= 0; j--) {
-			if (indices[j] == -1 || fitnessOfGens[i] > fitnessOfGens[indices[j]]) {
+			if (bestIndices[j] == -1 || fitnessOfGens[i] > fitnessOfGens[bestIndices[j]]) {
 				if (j < bestToHold - 1) {
-					indices[j + 1] = indices[j];
-					indices[j] = i;
+					bestIndices[j + 1] = bestIndices[j];
+					bestIndices[j] = i;
 				}
 				else {
-					indices[j] = i;
+					bestIndices[j] = i;
 				}
 			}
 			else {
@@ -23,18 +23,7 @@ void PrimAlgoSearcher::getBestIndices(int * indices)
 			}
 		}
 	}
-	if (currentBestFitnes > fitnessOfGens[indices[0]]) {
-		currentBestFitnes = fitnessOfGens[indices[0]];
-
-	}
-	currentBestFitnes = fitnessOfGens[indices[0]];
-}
-
-void PrimAlgoSearcher::copyGene(int* from, int* to)
-{
-	for (int i = 0; i < genSize; i++) {
-		to[i] = from[i];
-	}
+	currentBestFitnes = fitnessOfGens[bestIndices[0]];
 }
 
 PrimAlgoSearcher::PrimAlgoSearcher(int genCount,int genSize, int stackSize, int bestToHold, double crossoverRate, double mutationRate)
@@ -113,13 +102,13 @@ void PrimAlgoSearcher::runAndCalcFitness()
 		fitnessOfGens[i] = vm.getPrimes() + 1;
 		sumOfAllFitness += fitnessOfGens[i];
 	}
-	getBestIndices(bestIndices);
+	getBestIndices();
 }
 
 void PrimAlgoSearcher::crossOver()
 {
 	for (int i = bestToHold; i < genCount*crossoverRate; i+=2) {
-		crossOverTwoGens(nextGeneration[i], nextGeneration[i + 1]);
+		crossOverTwoGens(i,i + 1);
 	}
 }
 
@@ -128,32 +117,34 @@ void PrimAlgoSearcher::mutation()
 	int index;
 	for (int i = 0; i < genCount*mutationRate; i++) {
 		index = (rand() % (genCount - bestToHold)) + bestToHold;
-		mutateSingleGen(nextGeneration[index]);
+		mutateSingleGen(index);
 	}
 }
 
-void PrimAlgoSearcher::crossOverTwoGens(int * genA, int * genB)
+void PrimAlgoSearcher::crossOverTwoGens(int genAIndex, int genBIndex)
 {
 	int position = (rand() % (genSize - 2)) + 1;
 	int s;
 	for (int i = 0; i < position; i++) {
-		s = genA[i];
-		genA[i] = genB[i];
-		genB[i] = s;
+		s = nextGeneration[genAIndex][i];
+		nextGeneration[genAIndex][i] = nextGeneration[genBIndex][i];
+		nextGeneration[genBIndex][i] = s;
 	}
 }
 
-void PrimAlgoSearcher::mutateSingleGen(int * gen)
+void PrimAlgoSearcher::mutateSingleGen(int genIndex)
 {
 	int index = rand() % genSize;
-	gen[index] = random32();
+	nextGeneration[genIndex][index] = random32();
 }
 
 void PrimAlgoSearcher::selection()
 {
+	getBestIndices();
 	// keep the best
 	for (int i = 0; i < bestToHold; i++) {
-		copyGene(gens[bestIndices[i]], nextGeneration[i]);
+		//copyGene(gens[bestIndices[i]], nextGeneration[i]);
+		nextGeneration[i] = gens[bestIndices[i]];
 	}
 	// select with fitness in Probability
 	int r = 0;
@@ -167,9 +158,9 @@ void PrimAlgoSearcher::selection()
 			j++;
 			r -= fitnessOfGens[j];
 		}
-		copyGene(gens[j], nextGeneration[i]);
+		//copyGene(gens[j], nextGeneration[i]);
+		nextGeneration[i] = gens[j];
 	}
-	getBestIndices(bestIndices);
 }
 
 void PrimAlgoSearcher::swapGenerations()

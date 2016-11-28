@@ -26,7 +26,6 @@ private:
 	std::vector<int> bestIndices;
 
 	void getBestIndices();
-	void copyGene(int* from, int* to);
 	void crossOverTwoGens(int genAIndex, int genBIndex);
 	void mutateSingleGen(int genIndex);
 public:
