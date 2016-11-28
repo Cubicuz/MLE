@@ -40,15 +40,15 @@ void PrimAlgoSearcher::copyGene(int* from, int* to)
 PrimAlgoSearcher::PrimAlgoSearcher(int genCount,int genSize, int stackSize, int bestToHold, double crossoverRate, double mutationRate)
 	: genCount(genCount), genSize(genSize), stackSize(stackSize), bestToHold(bestToHold), crossoverRate(crossoverRate), mutationRate(mutationRate)
 {
-	gens = new int *[genCount];
-	nextGeneration = new int *[genCount];
-	stacks = new int *[genCount];
-	fitnessOfGens = new int[genCount];
-	bestIndices = new int[bestToHold];
+	gens.resize(genCount);
+	nextGeneration.resize(genCount);
+	stacks.resize(genCount);
+	fitnessOfGens.resize(genCount);
+	bestIndices.resize(bestToHold);
 	for (int i = 0; i < genCount; i++) {
-		gens[i] = new int[genSize];
-		stacks[i] = new int[stackSize];
-		nextGeneration[i] = new int[genSize];
+		gens[i].resize(genSize);
+		stacks[i].resize(stackSize);
+		nextGeneration[i].resize(genSize);
 	}
 }
 
@@ -59,54 +59,40 @@ PrimAlgoSearcher::PrimAlgoSearcher(string file, int bestToHold, double crossover
 	ifstream myfile(file);
 	if (myfile.is_open()) {
 		// Init sizes
-		myfile >> word;
-		genCount = stoi(word);
-		myfile >> word;
-		genSize = stoi(word);
-		myfile >> word;
-		stackSize = stoi(word);
+		myfile >> genCount;
+
+		myfile >> genSize;
+
+		myfile >> stackSize;
+
 
 		// Reserve space
-		gens = new int *[genCount];
-		nextGeneration = new int *[genCount];
-		stacks = new int *[genCount];
-		fitnessOfGens = new int[genCount];
-		bestIndices = new int[bestToHold];
+		gens.resize(genCount);
+		nextGeneration.resize(genCount);
+		stacks.resize(genCount);
+		fitnessOfGens.resize(genCount);
+		bestIndices.resize(bestToHold);
 		for (int i = 0; i < genCount; i++) {
-			gens[i] = new int[genSize];
-			stacks[i] = new int[stackSize];
-			nextGeneration[i] = new int[genSize];
+			gens[i].resize(genSize);
+			stacks[i].resize(stackSize);
+			nextGeneration[i].resize(genSize);
 
 			// Load Values
 			for (int j = 0; j < genSize; j++) {
-				myfile >> word;
-				gens[i][j] = stoi(word);
+				myfile >> gens[i][j];
 			}
 
 		}
 		myfile.close();
 	}
 	else {
-		cout << "try not to cry but something went horribly wrong" << endl;
-		gens = 0;
+		cout << "File could not be read" << endl;
 	}
 }
 
 
 PrimAlgoSearcher::~PrimAlgoSearcher()
 {
-	if (gens) {
-		for (int i = 0; i < genCount; i++) {
-			delete[] gens[i];
-			delete[] stacks[i];
-			delete[] nextGeneration[i];
-		}
-		delete[] gens;
-		delete[] nextGeneration;
-		delete[] stacks;
-		delete[] fitnessOfGens;
-		delete[] bestIndices;
-	}
 }
 
 int PrimAlgoSearcher::random32()
@@ -188,9 +174,7 @@ void PrimAlgoSearcher::selection()
 
 void PrimAlgoSearcher::swapGenerations()
 {
-	int ** s = gens;
-	gens = nextGeneration;
-	nextGeneration = s;
+	gens.swap(nextGeneration);
 }
 
 void PrimAlgoSearcher::initGenes()
