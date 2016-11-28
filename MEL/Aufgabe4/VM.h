@@ -99,7 +99,7 @@ public:
 
 	int getPrimes() {
 		std::set<int> seen;
-		for (int i = 0; i < primes.size(); i++) {
+		for (size_t i = 0; i < primes.size(); i++) {
 			seen.insert(primes[i]);
 		}
 		return seen.size();
