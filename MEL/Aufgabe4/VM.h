@@ -24,7 +24,6 @@ public:
 
 
 	VM(){
-		primes.reserve(100);
 	}
 
 	~VM() {
@@ -80,7 +79,7 @@ public:
 			}
 			case JIH: {
 				if (reg>0) {
-					pc = (pc + pop()) % memSize;
+					pc = abs(pc + pop()) % memSize;
 				}
 				else {
 					pc++;
@@ -88,18 +87,20 @@ public:
 				break;
 			}
 			}
-		} while (pc<memSize && sp >= 0 && cycles < MaxCycles && sp < stackSize);
+		} while (pc<memSize && pc>=0 && sp >= 0 && cycles < MaxCycles && sp < stackSize);
 	}
 
 	int getPrimes() {
-		std::set<int> seen;
-		for (size_t i = 0; i < primes.size(); i++) {
-			seen.insert(primes[i]);
+		int ctr = 0;
+		for (int curElement : primes) {
+			if (isPrime(curElement)) {
+				ctr++;
+			}
 		}
-		return seen.size();
+		return ctr;
 	}
 private:
-	std::vector<int> primes;
+	std::set<int> primes;
 	std::vector<int> stack;
 	int pc, sp, reg, cycles, memSize, stackSize;
 	
@@ -107,9 +108,7 @@ private:
 	void push(int x) {
 		if (sp < stackSize) {
 			stack[sp++] = x;
-			if (isPrime(x)) {
-				primes.push_back(x);
-			}
+			primes.insert(x);
 		}
 		else {
 			std::cout << "wtf" << std::endl;

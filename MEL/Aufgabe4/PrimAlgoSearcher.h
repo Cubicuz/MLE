@@ -31,7 +31,7 @@ private:
 	void mutateSingleGen(int genIndex);
 public:
 	PrimAlgoSearcher(int numOfGens = 20, int genSize = 1024, int stackSize = 1024, int bestToHold = 3, double crossoverRate = 0.5, double mutationRate = 0.1);
-	PrimAlgoSearcher(string file, int bestToHold = 3, double crossoverRate = 0.5, double mutationRate = 0.1);
+	PrimAlgoSearcher(std::string file, int bestToHold = 3, double crossoverRate = 0.5, double mutationRate = 0.1);
 	~PrimAlgoSearcher();
 	int random32();
 	void runAndCalcFitness();
@@ -41,6 +41,6 @@ public:
 	void swapGenerations();
 	void initGenes();
 	int getBestFitness();
-	void saveGenes(string file);
+	void saveGenes(std::string file);
 };
 

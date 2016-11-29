@@ -9,15 +9,15 @@ int random32() {
 }
 
 int main() {
-	PrimAlgoSearcher lala(10, 1024, 1024, 3,	0.5, 0.1);
+	PrimAlgoSearcher lala(30, 512, 512, 3,	0.5, 0.1);
 	lala.initGenes();
 	for (int i = 0; i < 1000; i++) {
 		lala.runAndCalcFitness();
 		lala.selection();
 		cout << "Run " << i << " best Fittnes " << lala.getBestFitness() << endl;
-//		lala.crossOver();
-//		lala.mutation();
-//		lala.swapGenerations();
+		lala.crossOver();
+		lala.mutation();
+		lala.swapGenerations();
 	}
 
 

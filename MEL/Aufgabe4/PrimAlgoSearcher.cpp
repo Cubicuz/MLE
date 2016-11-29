@@ -41,7 +41,7 @@ PrimAlgoSearcher::PrimAlgoSearcher(int genCount,int genSize, int stackSize, int 
 	}
 }
 
-PrimAlgoSearcher::PrimAlgoSearcher(string file, int bestToHold, double crossoverRate, double mutationRate)
+PrimAlgoSearcher::PrimAlgoSearcher(std::string file, int bestToHold, double crossoverRate, double mutationRate)
 	: bestToHold(bestToHold), crossoverRate(crossoverRate), mutationRate(mutationRate)
 {
 	string word;
@@ -179,7 +179,7 @@ int PrimAlgoSearcher::getBestFitness()
 	return currentBestFitnes;
 }
 
-void PrimAlgoSearcher::saveGenes(string file)
+void PrimAlgoSearcher::saveGenes(std::string file)
 {
 	ofstream myfile;
 	myfile.open(file, ios::out);
