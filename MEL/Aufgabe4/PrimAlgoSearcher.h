@@ -14,6 +14,7 @@ private:
 	// shuld be const but then problem with loading from file
 	int genCount, genSize, stackSize, bestToHold;
 	double crossoverRate, mutationRate;
+	VM vm;
 
 	// var
 	int sumOfAllFitness, currentBestFitnes = 0;
@@ -26,7 +27,6 @@ private:
 	std::vector<int> bestIndices;
 
 	void getBestIndices();
-	void copyGene(int* from, int* to);
 	void crossOverTwoGens(int genAIndex, int genBIndex);
 	void mutateSingleGen(int genIndex);
 public:
