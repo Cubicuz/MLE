@@ -29,16 +29,7 @@ void PrimAlgoSearcher::getBestIndices()
 PrimAlgoSearcher::PrimAlgoSearcher(int genCount,int genSize, int stackSize, int bestToHold, double crossoverRate, double mutationRate)
 	: genCount(genCount), genSize(genSize), stackSize(stackSize), bestToHold(bestToHold), crossoverRate(crossoverRate), mutationRate(mutationRate)
 {
-	gens.resize(genCount);
-	nextGeneration.resize(genCount);
-	stacks.resize(genCount);
-	fitnessOfGens.resize(genCount);
-	bestIndices.resize(bestToHold);
-	for (int i = 0; i < genCount; i++) {
-		gens[i].resize(genSize);
-		stacks[i].resize(stackSize);
-		nextGeneration[i].resize(genSize);
-	}
+	initVectors();
 }
 
 PrimAlgoSearcher::PrimAlgoSearcher(std::string file, int bestToHold, double crossoverRate, double mutationRate)
@@ -56,16 +47,9 @@ PrimAlgoSearcher::PrimAlgoSearcher(std::string file, int bestToHold, double cros
 
 
 		// Reserve space
-		gens.resize(genCount);
-		nextGeneration.resize(genCount);
-		stacks.resize(genCount);
-		fitnessOfGens.resize(genCount);
-		bestIndices.resize(bestToHold);
-		for (int i = 0; i < genCount; i++) {
-			gens[i].resize(genSize);
-			stacks[i].resize(stackSize);
-			nextGeneration[i].resize(genSize);
+		initVectors();
 
+		for (int i = 0; i < genCount; i++) {
 			// Load Values
 			for (int j = 0; j < genSize; j++) {
 				myfile >> gens[i][j];
@@ -79,6 +63,17 @@ PrimAlgoSearcher::PrimAlgoSearcher(std::string file, int bestToHold, double cros
 	}
 }
 
+void PrimAlgoSearcher::initVectors() {
+	gens.resize(genCount);
+	nextGeneration.resize(genCount);
+	fitnessOfGens.resize(genCount);
+	bestIndices.resize(bestToHold);
+	for (int i = 0; i < genCount; i++) {
+		vm.push_back(VM(genSize, stackSize));
+		gens[i].resize(genSize);
+		nextGeneration[i].resize(genSize);
+	}
+}
 
 PrimAlgoSearcher::~PrimAlgoSearcher()
 {
@@ -92,17 +87,31 @@ int PrimAlgoSearcher::random32()
 // the worst Fitness is 1, the best Fitnes would be int.MAX, this is important for the beginning and keeping the gens heterogeneous
 void PrimAlgoSearcher::runAndCalcFitness()
 {
+	threads.clear();
 	sumOfAllFitness = 0;
 	for (int i = 0; i < genCount; i++) {
-		for (int j = 0; j < stackSize; j++) {
-			stacks[i][j] = 0;
-		}
-		vm.simulate(gens[i], genSize, stacks[i], stackSize);
-		fitnessOfGens[i] = vm.getPrimes() + 1;
+		threads.push_back(std::thread(PrimAlgoSearcher::thread_runvm, i, std::ref(gens[i]), std::ref(fitnessOfGens), vm[i]));
+
+
+	}
+	for (int i = 0; i < genCount; i++) {
+		threads[i].join();
+	}
+	for (int i = 0; i < genCount; i++) {
+		threads[i].~thread();
 		sumOfAllFitness += fitnessOfGens[i];
 	}
+	threads.clear();
 	getBestIndices();
 }
+
+
+void PrimAlgoSearcher::thread_runvm(int indexOfThread, std::vector<int>& heap, std::vector<int>& fitness, VM& vm)
+{
+	vm.simulate(heap);
+	fitness[indexOfThread] = vm.getPrimes() + 1;
+}
+
 
 void PrimAlgoSearcher::crossOver()
 {
@@ -171,6 +180,13 @@ void PrimAlgoSearcher::initGenes()
 		for (int j = 0; j < genSize; j++) {
 			gens[i][j] = random32();
 		}
+	}
+}
+
+void PrimAlgoSearcher::makeLastGenRandom()
+{
+	for (int i = 0; i < genSize; i++) {
+		gens[genCount - 1][i] = random32();
 	}
 }
 

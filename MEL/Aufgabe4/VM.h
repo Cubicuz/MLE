@@ -23,16 +23,15 @@ public:
 
 
 
-	VM(){
+	VM(int memorySize, int stackSize) : memSize(memorySize), stackSize(stackSize){
+		stack.resize(stackSize);
 	}
 
 	~VM() {
 	}
 
-	void simulate(std::vector<int> &mem, int memorySize, std::vector<int> &stack, int stackSize) {
-		this->memSize = memorySize;
-		this->stackSize = stackSize;
-		this->stack = stack;
+	void simulate(std::vector<int> &mem) {
+		stack[0] = 0;
 		pc = 0;	sp = 0;	reg = 0; cycles = 0;
 		do {
 			cycles++;
