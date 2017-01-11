@@ -544,3 +544,6 @@ __pycache__/
 
 ### VisualStudio Patch ###
 build/
+*.tlog
+**/Release/
+**/Debug/

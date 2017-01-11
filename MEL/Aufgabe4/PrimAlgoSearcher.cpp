@@ -35,7 +35,6 @@ PrimAlgoSearcher::PrimAlgoSearcher(int genCount,int genSize, int stackSize, int 
 PrimAlgoSearcher::PrimAlgoSearcher(std::string file, int bestToHold, double crossoverRate, double mutationRate)
 	: bestToHold(bestToHold), crossoverRate(crossoverRate), mutationRate(mutationRate)
 {
-	string word;
 	ifstream myfile(file);
 	if (myfile.is_open()) {
 		// Init sizes

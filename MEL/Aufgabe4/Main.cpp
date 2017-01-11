@@ -12,19 +12,24 @@ int random32() {
 
 int main() {
 	srand(time(NULL));
-	PrimAlgoSearcher lala(31, 512, 512, 3,	0.5, 0.1);
-	lala.initGenes();
+	PrimAlgoSearcher PAS(31, 512, 512, 3,	0.5, 0.1);
+	PAS.initGenes();
+	PrimAlgoSearcher PAS("../Aufgabe4/PrimAlgoFile4.txt", 3, 0.5, 0.4);
 	for (int i = 0; i < 1000; i++) {
-		lala.runAndCalcFitness();
-		lala.selection();
-		cout << "Run " << i << " best Fittnes " << lala.getBestFitness() << endl;
-		lala.crossOver();
-		lala.mutation();
-		lala.makeLastGenRandom();
-		lala.swapGenerations();
+		PAS.runAndCalcFitness();
+		PAS.selection();
+		cout << "best Fittnes " << PAS.getBestFitness() << endl;
+		PAS.crossOver();
+		PAS.mutation();
+		PAS.makeLastGenRandom();
+		PAS.swapGenerations();
 	}
+	cout << "best Fittnes " << PAS.getBestFitness() << endl;
 
 
-	lala.saveGenes("../Aufgabe4/PrimAlgoFile.txt");
+	PAS.saveGenes("../Aufgabe4/PrimAlgoFile4.txt");
+	string a;
+	cout << "fertig";
+	cin >> a;
 	return 0;
 }
