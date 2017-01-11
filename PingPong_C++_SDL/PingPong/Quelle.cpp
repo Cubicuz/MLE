@@ -36,13 +36,13 @@ int main(int argc, char* argv[])
 	TTF_Font* os = TTF_OpenFont("C:\\Windows\\Fonts\\calibri.ttf", 12);
 	SDL_Color white = {255, 255, 255};
 	SDL_Rect mrect; mrect.h = 12; mrect.w = 60; mrect.x = 1; mrect.y = 1;
-	SDL_Rect ball; ball.h = 10; ball.w = 10; ball.x = rand()%100; ball.y = rand()%100;
+	SDL_Rect ball; ball.h = 10; ball.w = 10; ball.x = (rand()%40)*10; ball.y = (rand()%20)*10;
 	SDL_Rect paddle; paddle.h = 20; paddle.w = 60; paddle.y = HEIGHT-paddle.h-2; paddle.x = WIDTH/2 - paddle.w/2;
 	unsigned long points = 0;
 	char* buff = new char[strlen("score: 00000")+1];
 
 	// Game
-	bool run = true, pointSet = true;
+	bool run = true, pointSet = true, restart = false;
 	float velocityX = VELOCITY_X;
 	float velocityY = VELOCITY_Y;
 	float deltaTime = 0.0f;
@@ -50,7 +50,7 @@ int main(int argc, char* argv[])
 	int thisTime = 0;
 	int lastTime = 0;
 
-	QLerner qlerner(mrect.w, mrect.h, 0.1);
+	QLerner qlerner(41, 42, 0.1, screen->w - paddle.w);
 
 	while(run)
 	{
@@ -78,7 +78,7 @@ int main(int argc, char* argv[])
 							break;
 
 						case SDLK_LEFT:
-							paddle.x = (paddle.x - 5 < 0 ) ? 0 : paddle.x -10;
+							paddle.x = (paddle.x - 5 < 0 ) ? 0 : paddle.x - 10;
 							break;
 
 						case SDLK_RIGHT:
@@ -93,10 +93,10 @@ int main(int argc, char* argv[])
 		{
 			ball.x += velocityX;
 			ball.y += velocityY;
-			deltaTimeSum = 0;
+
 		}
 
-		if(ball.x >= screen->w-ball.w)
+		if(ball.x >= screen->w - ball.w)
 			velocityX = -VELOCITY_X;
 		else if(ball.x <= 0)
 			velocityX = VELOCITY_X;
@@ -116,10 +116,25 @@ int main(int argc, char* argv[])
 				pointSet = false;
 			}
 		}
-		else if(ball.y >= screen->h)
-			run = false;
+		else if (ball.y >= screen->h) {
+			qlerner.writeReward(ball.x, ball.y, paddle.x, velocityX, velocityY, -100);
+			ball.x = (rand() % 40) * 10; ball.y = (rand() % 20) * 10;
+			restart = true;
+		}
 
-
+		if (((int)abs(deltaTimeSum) > TIMEDIFFMILLI) && !restart) {
+			deltaTimeSum = 0;
+			int getNextAction = qlerner.getBestNextAction(ball.x, ball.y, paddle.x, velocityX, velocityY);
+			switch (getNextAction) {
+			case -1:
+				paddle.x = (paddle.x - 5 < 0) ? 0 : paddle.x - 10;
+				break;
+			case 1:
+				paddle.x = (paddle.x + 5 > screen->w - paddle.w) ? screen->w - paddle.w : paddle.x + 10;
+				break;
+			}
+		}
+		restart = false;
 		SDL_SetRenderDrawColor(sdlRenderer, 255, 255, 255, 1);
 		SDL_RenderDrawRect(sdlRenderer, &paddle);
 		SDL_RenderDrawRect(sdlRenderer, &ball);
