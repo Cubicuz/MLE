@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
 		cerr << "SDL konnte nicht initialisiert werden! Fehler: " << SDL_GetError() << endl;
 	}
 
-	sdlWindow = SDL_CreateWindow("Test", 100, 100, WIDTH, HEIGHT, SDL_WindowFlags::SDL_WINDOW_SHOWN);
+	sdlWindow = SDL_CreateWindow("Test", -700, 100, WIDTH, HEIGHT, SDL_WindowFlags::SDL_WINDOW_SHOWN);
 	sdlRenderer = SDL_CreateRenderer(sdlWindow, -1, SDL_RENDERER_ACCELERATED);
 
 	TTF_Init();
@@ -106,19 +106,21 @@ int main(int argc, char* argv[])
 			pointSet = true;
 			velocityY = VELOCITY_Y;
 		}
-		else if(SDL_HasIntersection(&paddle, &ball))
+		else if((ball.y >= screen->w - paddle.h) && ((paddle.x <= ball.x) && (ball.x <= paddle.x + paddle.w)))
 		{
+			qlerner.writeReward(ball.x, ball.y, paddle.x, velocityX, velocityY, 100);
 			velocityY = -VELOCITY_Y;
-
+			ball.y += 2 * velocityY;
 			if(pointSet)
 			{
 				points++;
 				pointSet = false;
 			}
 		}
-		else if (ball.y >= screen->h) {
+		else if (ball.y >= screen->w - paddle.h) {
 			qlerner.writeReward(ball.x, ball.y, paddle.x, velocityX, velocityY, -100);
-			ball.x = (rand() % 40) * 10; ball.y = (rand() % 20) * 10;
+			//ball.x = (rand() % 40) * 10; ball.y = (rand() % 20) * 10;
+			ball.x = 10; ball.y = 200;
 			restart = true;
 		}
 
@@ -143,6 +145,8 @@ int main(int argc, char* argv[])
 		textureMessage = SDL_CreateTextureFromSurface(sdlRenderer, surfaceMessage);
 		SDL_RenderCopy(sdlRenderer, textureMessage, NULL, &mrect);
 		SDL_RenderPresent(sdlRenderer);
+		SDL_FreeSurface(surfaceMessage);
+		SDL_DestroyTexture(textureMessage);
 	}
 
 	//SDL_DestroyRenderer(sdlRenderer);
