@@ -12,8 +12,8 @@ int random32() {
 
 int main() {
 	srand(time(NULL));
-	PrimAlgoSearcher PAS(31, 512, 512, 3,	0.5, 0.1);
-	PAS.initGenes();
+	//PrimAlgoSearcher PAS(31, 512, 512, 3,	0.5, 0.1);
+	//PAS.initGenes();
 	PrimAlgoSearcher PAS("../Aufgabe4/PrimAlgoFile4.txt", 3, 0.5, 0.4);
 	for (int i = 0; i < 1000; i++) {
 		PAS.runAndCalcFitness();
